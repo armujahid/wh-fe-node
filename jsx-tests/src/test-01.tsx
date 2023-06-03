@@ -9,7 +9,14 @@ import ReactDOM from 'react-dom';
 
 function DataList(props) {
   return (
-    <h2>code goes here</h2>
+    <ul>
+      {props.data.map((item, index) => (
+        <li key={index}>
+          <span>{item.name}</span>
+          <span> {item.age}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
