@@ -6,19 +6,19 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-class Counter extends React.Component {
-  constructor(props) {
-    super(props);
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
   }
 
-  render() {
-    return (
-      <div id="mainArea">
-        <p>button count: <span>0</span></p>
-        <button id="mainButton">Increase</button>
-      </div>
-    );
-  }
+  return (
+    <div id="mainArea">
+      <p>button count: <span>{count}</span></p>
+      <button id="mainButton" onClick={handleClick}>Increase</button>
+    </div>
+  );
 }
 
 ReactDOM.render(
