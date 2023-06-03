@@ -10,7 +10,7 @@
  * 
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 const style = {
@@ -47,8 +47,18 @@ const style = {
 } as const;
 
 function PhoneBookForm({ addEntryToPhoneBook }) {
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault();
+        const {userFirstname, userLastname, userPhone} = event.target.elements;
+        addEntryToPhoneBook({ 
+            first_name: userFirstname.value, 
+            last_name: userLastname.value, 
+            phone: userPhone.value,
+        });
+    }, [addEntryToPhoneBook]);
+
     return (
-        <form onSubmit={e => { e.preventDefault() }} style={style.form.container}>
+        <form onSubmit={handleSubmit} style={style.form.container}>
             <label>First name:</label>
             <br />
             <input
@@ -56,6 +66,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className='userFirstname'
                 name='userFirstname'
                 type='text'
+                defaultValue="Coder"
             />
             <br />
             <label>Last name:</label>
@@ -65,6 +76,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className='userLastname'
                 name='userLastname'
                 type='text'
+                defaultValue="Byte"
             />
             <br />
             <label>Phone:</label>
@@ -74,6 +86,7 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 className='userPhone'
                 name='userPhone'
                 type='text'
+                defaultValue="8885559999"
             />
             <br />
             <input
@@ -83,10 +96,11 @@ function PhoneBookForm({ addEntryToPhoneBook }) {
                 value='Add User'
             />
         </form>
-    )
+    );
 }
 
-function InformationTable(props) {
+function InformationTable({data}) {
+    const sortedData = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
     return (
         <table style={style.table} className='informationTable'>
             <thead>
@@ -96,15 +110,28 @@ function InformationTable(props) {
                     <th style={style.tableCell}>Phone</th>
                 </tr>
             </thead>
+            <tbody>
+                {sortedData.map((item) => (
+                <tr key={item.id}>
+                    <td>{item.first_name}</td>
+                    <td>{item.last_name}</td>
+                    <td>{item.phone}</td>
+                </tr>
+                ))}
+            </tbody>
         </table>
     );
 }
 
-function Application(props) {
+function Application() {
+    const [phonebook, setPhonebook] = useState([]);
+    function appendToPhonebook(info){
+        setPhonebook([...phonebook, info]);
+    }
     return (
         <section>
-            <PhoneBookForm addEntryToPhoneBook="" />
-            <InformationTable />
+            <PhoneBookForm addEntryToPhoneBook={appendToPhonebook} />
+            <InformationTable data={phonebook} />
         </section>
     );
 }
