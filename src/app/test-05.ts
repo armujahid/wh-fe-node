@@ -31,22 +31,29 @@ export class TestService {
     selector : 'ng-app',
     template : `
                 <h2>Current test is:</h2>
-                {{test | async}}
+                {{test}}
                 <br/>
                 <child [skip-current]="true"></child>
                 `,
     styles : []
 })
-export class MainComponent implements OnInit {
-    test:BehaviorSubject<string>;
+export class MainComponent implements OnInit, OnDestroy {
+    test:string = null;
     subscription: Subscription
 
-    constructor(private _srv:TestService) {
+    constructor(private _srv:TestService, private _cd:ChangeDetectorRef) {
 
     }
 
     ngOnInit() {
-        this.test = this._srv.test; // use AsyncPipe to automatically manage the subscription when a component is destroyed.
+        this.subscription = this._srv.test.subscribe(test=>{
+            this.test = test;
+            this._cd.detectChanges();
+        });
+    }
+
+    ngOnDestroy() { // we could also have used AsyncPipe to automatically manage the subscription when a component is destroyed.
+        this.subscription.unsubscribe();
     }
 }
 
@@ -64,15 +71,16 @@ export class TextChildComponent {
     }
 
     Next() {
-        // this._srv.SetTest("angular test #6");
         this._router.navigate(["test-six"]);
     }
 
     ngAfterViewInit() { // view shouldn't be updated here.
-        // using promise/microtask because cd.detectChanges() was not working
-        if(this.skip) {
-            Promise.resolve().then(() => this._srv.SetTest("angular test #6"));
-        }
+        if(this.skip) this._srv.SetTest("angular test #6");
+
+        // worst case: use promise/microtask to update the view.
+        // if(this.skip) {
+        //     Promise.resolve().then(() => this._srv.SetTest("angular test #6"));
+        // }
     }
 
 }
