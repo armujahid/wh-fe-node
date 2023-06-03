@@ -4,10 +4,10 @@
  * * Spot the memory leak
  * 
  */
-import { Component, NgModule, Injectable, Input  } from '@angular/core';
+import { Component, NgModule, Injectable, Input, OnInit, OnDestroy, ChangeDetectorRef  } from '@angular/core';
 import { RouterModule, Router} from "@angular/router";
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 
 @Injectable()
@@ -21,30 +21,32 @@ export class TestService {
     SetTest(test:string) {
         this.test.next(test);
     }
+
+    ngOnDestroy() {
+        this.test.complete(); // clean up
+    }
 }
 
 @Component({
     selector : 'ng-app',
     template : `
                 <h2>Current test is:</h2>
-                {{test}}
+                {{test | async}}
                 <br/>
                 <child [skip-current]="true"></child>
                 `,
     styles : []
 })
-export class MainComponent {
-    test:string = null;
+export class MainComponent implements OnInit {
+    test:BehaviorSubject<string>;
+    subscription: Subscription
 
     constructor(private _srv:TestService) {
 
     }
 
     ngOnInit() {
-        
-        this._srv.test.subscribe(test=>{
-            this.test = test;
-        });
+        this.test = this._srv.test; // use AsyncPipe to automatically manage the subscription when a component is destroyed.
     }
 }
 
@@ -62,11 +64,15 @@ export class TextChildComponent {
     }
 
     Next() {
+        // this._srv.SetTest("angular test #6");
         this._router.navigate(["test-six"]);
     }
 
-    ngAfterViewInit() {
-        if(this.skip) this._srv.SetTest("angular test #6");
+    ngAfterViewInit() { // view shouldn't be updated here.
+        // using promise/microtask because cd.detectChanges() was not working
+        if(this.skip) {
+            Promise.resolve().then(() => this._srv.SetTest("angular test #6"));
+        }
     }
 
 }
