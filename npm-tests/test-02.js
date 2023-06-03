@@ -11,5 +11,12 @@ https.get('https://coderbyte.com/api/challenges/json/rest-get-simple', (resp) =>
     let data = "";
     
     // parse json and print "hobbies" property as ITEM1, ITEM2,...
-    console.log();
+    resp.on('data', (chunk) => {
+        data += chunk;
+    });
+
+    resp.on('end', () => {
+        const hobbies = JSON.parse(data).hobbies;
+        console.log(hobbies.join(', '));
+    });
 })
