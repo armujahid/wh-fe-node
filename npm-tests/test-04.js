@@ -9,6 +9,7 @@
 
  import {fastify } from "fastify";
  import http from "http";
+ import sanitizeHtml from 'sanitize-html';
 
  const app = fastify({
     ignoreTrailingSlash : true,
@@ -18,15 +19,21 @@
 /** @type {{ firstname?: string, lastname?: string}} */
 const userInput = {};
 
+function sanitize(str) {
+    return sanitizeHtml(str, {
+        allowedTags: [],
+        allowedAttributes: {}
+    });
+}
+
 app.post('/save',(request,reply)=>{
     /** @type {{ firstname: string, lastname: string}} */
     //@ts-ignore
     const body = request.body;
 
     // purify the inputs here
-    userInput.firstname = body.firstname;
-    userInput.lastname = body.lastname;
-
+    userInput.firstname = sanitize(body.firstname);
+    userInput.lastname = sanitize(body.lastname);
 
     reply.status(200);
     reply.header('Content-Type', 'text/plain; charset=utf-8');
@@ -51,9 +58,39 @@ app.get('/get-name',(request,reply)=>{
 
 })
 
+function postPayloadtoSave(payload){
+    return new Promise((resolve, reject) => {
+        const options = {
+          hostname: '127.0.0.1',
+          port: 8080,
+          path: '/save',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': payload.length
+          }
+        };
+        
+        const req = http.request(options, (res) => {
+          console.log(`statusCode: ${res.statusCode}`);
+        
+          res.on('data', (d) => {
+            resolve(d);
+          });
+        });
+        
+        req.on('error', (error) => {
+          reject(error);
+        });
+        
+        req.write(payload);
+        req.end();
+      });
+}
+
 
 // server start
-app.listen(8080,"0.0.0.0").then((address)=>{
+app.listen(8080,"0.0.0.0").then(async (address)=>{
     console.log(`Server started at ${address}`);
 
     // json payload to POST
@@ -63,7 +100,7 @@ app.listen(8080,"0.0.0.0").then((address)=>{
     });
 
     // JSON POST of `payload` to http://127.0.0.1:8080/save code here
-
+    await postPayloadtoSave(payload);
 });
 
 
