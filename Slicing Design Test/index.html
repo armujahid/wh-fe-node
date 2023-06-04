@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WH Slicing Test</title>
+    <link rel="stylesheet" href="./assets/styles/fonts.css">
+    <link rel="stylesheet" href="./assets/styles/main.css">
+    <link rel="stylesheet" href="./assets/styles/main.css">
+    <link rel="stylesheet" href="./assets/styles/desktop.css">
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#"><span class="desktop-only">Navigation</span> Link One</a></li>
+          <li><a href="#"><span class="desktop-only">Navigation</span> Link Two</a></li>
+          <li><a href="#"><span class="desktop-only">Navigation</span> Link Three</a></li>
+        </ul>
+      </nav>
+      <section id="banner">
+        <h1>Do the right thing</h1>
+        <picture>
+          <source media="(min-width: 768px)" srcset="./assets/images/desktop/banner.svg">
+          <img src="./assets/images/mobile/banner.svg" alt="Credit card">
+        </picture>
+      </section>
+    </header>
+    <section id="credit-card-wh" class="wh">
+      <h4 class="wh__header">Credit Opportunities With Good Approval Odds<sup>†</sup></h4>
+      <div class="wh__card">
+        <div class="flex row space-between">
+          <h6 class="wh__card__header">Barclaycard CashForward<sup>TM</sup> World MasterCard<sup>TM</sup>
+          </h6>
+          <div id="reviews" class="wh__card__reviews desktop-only">
+            <img src="./assets/images/stars.png" alt="4 Stars" class="wh__card__reviews_stars">
+            <span class="wh__card__reviews_text">3,252 Reviews</span>
+          </div>
+        </div>
+        <div class="wh__card__wrapper">
+          <div class="desktop-left">
+            <div class="flex row space-between">
+              <img src="./assets/images/desktop/desktopvisa.svg" alt="Visa Card Image" class="wh__card__image desktop-only">
+              <img src="./assets/images/mobile/mobilevisa.svg" alt="Visa Card Image" class="wh__card__image mobile-only">
+              <div class="flex column">
+                <div class="wh__card__caption">Approval Odds<sup>†</sup></div>
+                <div class="wh__card__chip">Very Good</div>
+              </div>
+            </div>
+            <button id="apply-btn" class="wh__btn desktop-only">Apply Now</button>
+          </div>
+          <ul class="wh__card__list">
+            <li>
+              Get a $100 cash rewards bonus after you spend $500 in purchases in the first 90 days after account oppening.
+            </li>
+            <li>
+              Earn unlimited 1.5% cash rewards on every purcahse.
+            </li>
+            <li>
+              Earn unlimited 1.5% cash rewards on every<span class="more">...</span><span class="show_more">show
+                more</span>
+            </li>
+          </ul>
+        </div>
+        <button id="apply-btn" class="wh__btn mobile-only">Apply Now</button>
+        <hr class="wh__card_divider">
+        <a href="#" class="wh__card__rates_link">See Details Rates & Fees</a>
+      </div>
+    </section>
+  </body>
+</html>

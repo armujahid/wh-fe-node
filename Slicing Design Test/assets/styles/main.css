@@ -1,0 +1,205 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Proxima Nova';
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.desktop-only {
+  display: none;
+}
+
+.mobile-only {
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex.row {
+  flex-direction: row;
+}
+
+.flex.column {
+  flex-direction: column;
+}
+
+.flex.space-around {
+  justify-content: space-around;
+}
+
+.flex.space-between {
+  justify-content: space-between;
+}
+
+header {
+  background-color: #23123A;
+  padding-top: 56px;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  background-color: #FFFFFF;
+}
+
+header nav ul li {
+  flex-grow: 1;
+  border: 1px solid #EDEFF0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+#banner {
+  position: relative;
+  min-height: 130vw;
+}
+
+#banner picture {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 0;
+}
+
+#banner * {
+  position: relative;
+  z-index: 1;
+}
+
+#banner h1 {
+  font-weight: 800;
+  font-size: 15vw;
+  padding: 32px;
+  line-height: 17vw;
+  color: #FFFFFF;
+  padding-top: 10vw;
+}
+
+#credit-card-wh {
+  background-color: #F1F5F8;
+}
+
+#credit-card-wh .wh__header {
+  padding: 24px 16px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+#credit-card-wh .wh__card {
+  background-color: #FFFFFF;
+  padding: 24px 16px;
+}
+
+#credit-card-wh .wh__card__header {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  margin-bottom: 22px;
+}
+
+#credit-card-wh .wh__card__header sup {
+  font-size: 8px;
+}
+
+.wh__card__image {
+  width: 50%;
+}
+
+.wh__card__image + div {
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.wh__card__caption {
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.wh__card__chip {
+  height: 32px;
+  background-color: #59D8D1;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0px 24px;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 24px;
+  margin-top: 24px;
+}
+
+.wh__card__list {
+  margin-top: 24px;
+  padding-left: 24px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.wh__card__list li {
+  margin-bottom: 16px;
+}
+
+.wh__card__list .show_more {
+  color: #1194F6;
+  cursor: pointer;
+}
+
+.wh__card__list .show_more:hover {
+  text-decoration: underline;
+}
+
+#apply-btn {
+  background-color: #FA6E3D;
+  border: none;
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+.wh__card__rates_link {
+  color: #1194F6;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.wh__card__rates_link:hover {
+  text-decoration: underline;
+}
+
+.wh__card_divider {
+  margin-left: -16px;
+  width: calc(100% + 32px);
+  border-color: #7F949C;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
